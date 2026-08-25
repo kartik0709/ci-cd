@@ -25,7 +25,7 @@ jobs:
           XANO_AUTH: ${{ secrets.XANO_AUTH }}
         run: |
           npx -y @xano/cli profile create ci \
-            -i "https://x49e-vhvt-vbqx.sales.xano.io" \
+            -i "https://xhqc-feze-bomo.dev.xano.io" \
             -t "$XANO_AUTH" \
             -w 90 \
             -b v1 \
