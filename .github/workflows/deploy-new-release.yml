@@ -64,7 +64,7 @@ jobs:
             npx -y @xano/cli profile create ci \
                 -i "https://xhqc-feze-bomo.dev.xano.io" \
                 -t "$XANO_AUTH" \
-                -w 96 \
+                -w 97 \
                 -b v1 \
                 --default
 
@@ -81,7 +81,7 @@ jobs:
           run: npx -y @xano/cli release create v"${{ steps.tag.outputs.version }}" --branch release_"${{ steps.tag.outputs.version }}" 
 
         - name: Deploy to tenant
-          run: npx -y @xano/cli tenant deploy_release t2an-8vw9-8d2f -r v"${{ steps.tag.outputs.version }}"
+          run: npx -y @xano/cli tenant deploy_release tzwi-nf9h-0616 -r v"${{ steps.tag.outputs.version }}"
 
 
         
