@@ -27,7 +27,7 @@ jobs:
           npx -y @xano/cli profile create ci \
             -i "https://xhqc-feze-bomo.dev.xano.io" \
             -t "$XANO_AUTH" \
-            -w 96 \
+            -w 97 \
             -b v1 \
             --default
       - name: Create ci branch
