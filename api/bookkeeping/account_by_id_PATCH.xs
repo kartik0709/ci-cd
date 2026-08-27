@@ -25,18 +25,21 @@ query "accounts/{account_id}" verb=PATCH {
 
     var $updates { value = {} }
 
+    var $name_provided { value = ($input.name ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($input.name != null) {
+      if ($name_provided == true) {
         var.update $updates { value = $updates|set:"name":$input.name }
       }
     }
+    var $description_provided { value = ($input.description ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($input.description != null) {
+      if ($description_provided == true) {
         var.update $updates { value = $updates|set:"description":$input.description }
       }
     }
+    var $is_active_provided { value = ($input.is_active ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($input.is_active != null) {
+      if ($is_active_provided == true) {
         var.update $updates { value = $updates|set:"is_active":$input.is_active }
       }
     }
