@@ -9,6 +9,9 @@ query "dashboard" verb=GET {
   }
 
   stack {
+    var $start_date { value = $input["start_date"] }
+    var $end_date { value = $input["end_date"] }
+
     db.query "account" {
       where = $db.account.is_active == true
     } as $accounts
@@ -20,8 +23,8 @@ query "dashboard" verb=GET {
         function.run "account_balance" {
           input = {
             account_id: $acct.id,
-            start_date: $input.start_date,
-            end_date: $input.end_date
+            start_date: $start_date,
+            end_date: $end_date
           }
         } as $bal
 

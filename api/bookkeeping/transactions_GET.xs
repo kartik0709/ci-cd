@@ -11,8 +11,11 @@ query "transactions" verb=GET {
   }
 
   stack {
+    var $start_date { value = $input["start_date"] }
+    var $end_date { value = $input["end_date"] }
+
     db.query "journal_entry" {
-      where = $db.journal_entry.date >=? $input.start_date && $db.journal_entry.date <=? $input.end_date
+      where = $db.journal_entry.date >=? $start_date && $db.journal_entry.date <=? $end_date
       sort = { date: "desc" }
       return = { type: "list", paging: { page: $input.page, per_page: $input.per_page, totals: true } }
     } as $entries_page

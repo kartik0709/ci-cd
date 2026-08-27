@@ -24,6 +24,9 @@ query "accounts/{account_id}/ledger" verb=GET {
       error = "Account not found"
     }
 
+    var $start_date { value = $input["start_date"] }
+    var $end_date { value = $input["end_date"] }
+
     db.query "journal_entry_line" {
       join = {
         entry: {
@@ -31,7 +34,7 @@ query "accounts/{account_id}/ledger" verb=GET {
           where: $db.journal_entry_line.journal_entry_id == $db.entry.id
         }
       }
-      where = $db.journal_entry_line.account_id == $input.account_id && $db.entry.date >=? $input.start_date && $db.entry.date <=? $input.end_date
+      where = $db.journal_entry_line.account_id == $input.account_id && $db.entry.date >=? $start_date && $db.entry.date <=? $end_date
       eval = {
         entry_date: $db.entry.date,
         entry_memo: $db.entry.memo,
