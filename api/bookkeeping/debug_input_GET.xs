@@ -7,6 +7,7 @@ query "debug/input" verb=GET {
     text name? filters=trim
     bool is_active?
     bool? is_active_n?
+    text is_active_s? filters=trim
   }
 
   stack {
@@ -16,6 +17,7 @@ query "debug/input" verb=GET {
     var $is_active_coalesce { value = $input.is_active ?? "WAS_NULL" }
     var $is_active_n_is_null { value = $input.is_active_n == null }
     var $is_active_n_coalesce { value = $input.is_active_n ?? "WAS_NULL" }
+    var $is_active_s_is_null { value = $input.is_active_s == null }
   }
 
   response = {
@@ -27,6 +29,8 @@ query "debug/input" verb=GET {
     is_active_coalesce: $is_active_coalesce,
     raw_is_active_n: $input.is_active_n,
     is_active_n_is_null: $is_active_n_is_null,
-    is_active_n_coalesce: $is_active_n_coalesce
+    is_active_n_coalesce: $is_active_n_coalesce,
+    raw_is_active_s: $input.is_active_s,
+    is_active_s_is_null: $is_active_s_is_null
   }
 }
