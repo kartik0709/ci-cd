@@ -9,7 +9,9 @@ query "accounts/{account_id}" verb=PATCH {
     }
     text name? filters=trim
     text description? filters=trim
-    bool is_active?
+    text is_active? filters=trim {
+      description = "Pass the string \"true\" or \"false\". A native JSON boolean is not usable here: this platform's XanoScript engine cannot distinguish an explicit false from an omitted field for boolean inputs (confirmed empirically), so the value is accepted as text instead."
+    }
   }
 
   stack {
@@ -25,22 +27,23 @@ query "accounts/{account_id}" verb=PATCH {
 
     var $updates { value = {} }
 
-    var $name_provided { value = ($input.name ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($name_provided == true) {
+      if ($input.name != null) {
         var.update $updates { value = $updates|set:"name":$input.name }
       }
     }
-    var $description_provided { value = ($input.description ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($description_provided == true) {
+      if ($input.description != null) {
         var.update $updates { value = $updates|set:"description":$input.description }
       }
     }
-    var $is_active_provided { value = ($input.is_active ?? "__UNSET__") != "__UNSET__" }
     conditional {
-      if ($is_active_provided == true) {
-        var.update $updates { value = $updates|set:"is_active":$input.is_active }
+      if ($input.is_active != null) {
+        precondition ($input.is_active == "true" || $input.is_active == "false") {
+          error_type = "inputerror"
+          error = "is_active must be the string \"true\" or \"false\""
+        }
+        var.update $updates { value = $updates|set:"is_active":($input.is_active == "true") }
       }
     }
 
