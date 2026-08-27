@@ -30,9 +30,15 @@ jobs:
             -w 97 \
             -b v1 \
             --default
-      - name: Create ci branch
-        run: npx -y @xano/cli branch create ci --source v1 -d "CI branch for testing changes"
 
+      - name: Create ci branch
+        run: |
+          if npx -y @xano/cli branch get ci > /dev/null 2>&1; then
+            echo "Branch ci already exists"
+          else
+            npx -y @xano/cli branch create ci --source v1 -d "CI branch for testing changes"
+          fi
+          
       - name: Push to ci branch
         run: npx -y @xano/cli workspace push --sync --delete --force --branch ci
 
