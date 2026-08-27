@@ -4,14 +4,11 @@ query "reports/profit-loss" verb=GET {
   description = "Income and expense totals for a date range, with net income"
 
   input {
-    date start_date?
-    date end_date?
+    date start_date?="1970-01-01"
+    date end_date?="2999-12-31"
   }
 
   stack {
-    var $start_date { value = $input["start_date"] }
-    var $end_date { value = $input["end_date"] }
-
     db.query "account" {
       where = $db.account.type == "income" && $db.account.is_active == true
       sort = { code: "asc" }
@@ -28,7 +25,7 @@ query "reports/profit-loss" verb=GET {
     foreach ($income_accounts) {
       each as $acct {
         function.run "account_balance" {
-          input = { account_id: $acct.id, start_date: $start_date, end_date: $end_date }
+          input = { account_id: $acct.id, start_date: $input.start_date, end_date: $input.end_date }
         } as $bal
 
         array.push $income_lines { value = { account: $acct, balance: $bal.balance } }
@@ -42,7 +39,7 @@ query "reports/profit-loss" verb=GET {
     foreach ($expense_accounts) {
       each as $acct {
         function.run "account_balance" {
-          input = { account_id: $acct.id, start_date: $start_date, end_date: $end_date }
+          input = { account_id: $acct.id, start_date: $input.start_date, end_date: $input.end_date }
         } as $bal
 
         array.push $expense_lines { value = { account: $acct, balance: $bal.balance } }
@@ -54,8 +51,8 @@ query "reports/profit-loss" verb=GET {
   }
 
   response = {
-    start_date: $start_date,
-    end_date: $end_date,
+    start_date: $input.start_date,
+    end_date: $input.end_date,
     income: $income_lines,
     total_income: $total_income,
     expenses: $expense_lines,

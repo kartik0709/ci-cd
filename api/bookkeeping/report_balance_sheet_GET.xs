@@ -4,12 +4,10 @@ query "reports/balance-sheet" verb=GET {
   description = "Asset, liability, and equity balances as of a given date"
 
   input {
-    date as_of?
+    date as_of?="2999-12-31"
   }
 
   stack {
-    var $as_of { value = $input["as_of"] }
-
     db.query "account" {
       where = $db.account.type == "asset" && $db.account.is_active == true
       sort = { code: "asc" }
@@ -31,7 +29,7 @@ query "reports/balance-sheet" verb=GET {
     foreach ($asset_accounts) {
       each as $acct {
         function.run "account_balance" {
-          input = { account_id: $acct.id, end_date: $as_of }
+          input = { account_id: $acct.id, end_date: $input.as_of }
         } as $bal
 
         array.push $assets { value = { account: $acct, balance: $bal.balance } }
@@ -45,7 +43,7 @@ query "reports/balance-sheet" verb=GET {
     foreach ($liability_accounts) {
       each as $acct {
         function.run "account_balance" {
-          input = { account_id: $acct.id, end_date: $as_of }
+          input = { account_id: $acct.id, end_date: $input.as_of }
         } as $bal
 
         array.push $liabilities { value = { account: $acct, balance: $bal.balance } }
@@ -59,7 +57,7 @@ query "reports/balance-sheet" verb=GET {
     foreach ($equity_accounts) {
       each as $acct {
         function.run "account_balance" {
-          input = { account_id: $acct.id, end_date: $as_of }
+          input = { account_id: $acct.id, end_date: $input.as_of }
         } as $bal
 
         array.push $equity { value = { account: $acct, balance: $bal.balance } }
@@ -69,7 +67,7 @@ query "reports/balance-sheet" verb=GET {
   }
 
   response = {
-    as_of: $as_of,
+    as_of: $input.as_of,
     assets: $assets,
     total_assets: $total_assets,
     liabilities: $liabilities,

@@ -4,14 +4,11 @@ query "dashboard" verb=GET {
   description = "Summary totals by account type, net income, cash position, and recent activity"
 
   input {
-    date start_date?
-    date end_date?
+    date start_date?="1970-01-01"
+    date end_date?="2999-12-31"
   }
 
   stack {
-    var $start_date { value = $input["start_date"] }
-    var $end_date { value = $input["end_date"] }
-
     db.query "account" {
       where = $db.account.is_active == true
     } as $accounts
@@ -23,8 +20,8 @@ query "dashboard" verb=GET {
         function.run "account_balance" {
           input = {
             account_id: $acct.id,
-            start_date: $start_date,
-            end_date: $end_date
+            start_date: $input.start_date,
+            end_date: $input.end_date
           }
         } as $bal
 

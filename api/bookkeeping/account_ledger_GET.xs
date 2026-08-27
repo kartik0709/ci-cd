@@ -7,8 +7,8 @@ query "accounts/{account_id}/ledger" verb=GET {
     int account_id {
       table = "account"
     }
-    date start_date?
-    date end_date?
+    date start_date?="1970-01-01"
+    date end_date?="2999-12-31"
     int page?=1 filters=min:1
     int per_page?=50 filters=min:1|max:200
   }
@@ -24,9 +24,6 @@ query "accounts/{account_id}/ledger" verb=GET {
       error = "Account not found"
     }
 
-    var $start_date { value = $input["start_date"] }
-    var $end_date { value = $input["end_date"] }
-
     db.query "journal_entry_line" {
       join = {
         entry: {
@@ -34,7 +31,7 @@ query "accounts/{account_id}/ledger" verb=GET {
           where: $db.journal_entry_line.journal_entry_id == $db.entry.id
         }
       }
-      where = $db.journal_entry_line.account_id == $input.account_id && $db.entry.date >=? $start_date && $db.entry.date <=? $end_date
+      where = $db.journal_entry_line.account_id == $input.account_id && $db.entry.date >=? $input.start_date && $db.entry.date <=? $input.end_date
       eval = {
         entry_date: $db.entry.date,
         entry_memo: $db.entry.memo,

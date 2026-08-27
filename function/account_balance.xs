@@ -5,8 +5,8 @@ function "account_balance" {
     int account_id {
       table = "account"
     }
-    date start_date?
-    date end_date?
+    date start_date?="1970-01-01"
+    date end_date?="2999-12-31"
   }
 
   stack {
