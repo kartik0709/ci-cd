@@ -2,7 +2,6 @@
 query "transactions" verb=GET {
   api_group = "Bookkeeping"
   description = "List journal entries (transactions), most recent first"
-  auth = "user"
 
   input {
     date start_date?

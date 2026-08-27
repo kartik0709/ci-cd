@@ -2,7 +2,6 @@
 query "reports/balance-sheet" verb=GET {
   api_group = "Bookkeeping"
   description = "Asset, liability, and equity balances as of a given date"
-  auth = "user"
 
   input {
     date as_of?

@@ -2,7 +2,6 @@
 query "transactions/{transaction_id}" verb=GET {
   api_group = "Bookkeeping"
   description = "Get a single journal entry with its lines"
-  auth = "user"
 
   input {
     int transaction_id {

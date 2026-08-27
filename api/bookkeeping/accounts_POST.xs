@@ -2,7 +2,6 @@
 query "accounts" verb=POST {
   api_group = "Bookkeeping"
   description = "Create a new chart-of-accounts entry"
-  auth = "user"
 
   input {
     text code filters=trim|upper

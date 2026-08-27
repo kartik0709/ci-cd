@@ -2,7 +2,6 @@
 query "reports/profit-loss" verb=GET {
   api_group = "Bookkeeping"
   description = "Income and expense totals for a date range, with net income"
-  auth = "user"
 
   input {
     date start_date?

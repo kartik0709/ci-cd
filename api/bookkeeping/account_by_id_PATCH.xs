@@ -2,7 +2,6 @@
 query "accounts/{account_id}" verb=PATCH {
   api_group = "Bookkeeping"
   description = "Update an account's name, description, or active status (code and type are immutable once created)"
-  auth = "user"
 
   input {
     int account_id {

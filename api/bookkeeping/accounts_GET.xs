@@ -2,7 +2,6 @@
 query "accounts" verb=GET {
   api_group = "Bookkeeping"
   description = "List chart-of-accounts entries, optionally including each account's current balance"
-  auth = "user"
 
   input {
     enum type? {

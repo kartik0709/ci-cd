@@ -2,7 +2,6 @@
 query "transactions" verb=POST {
   api_group = "Bookkeeping"
   description = "Record a balanced journal entry (double-entry transaction) with two or more lines"
-  auth = "user"
 
   input {
     date date
@@ -69,8 +68,7 @@ query "transactions" verb=POST {
           data = {
             date: $input.date,
             memo: $input.memo,
-            reference: $input.reference,
-            created_by: $auth.id
+            reference: $input.reference
           }
         } as $entry
 

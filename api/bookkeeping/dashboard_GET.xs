@@ -2,7 +2,6 @@
 query "dashboard" verb=GET {
   api_group = "Bookkeeping"
   description = "Summary totals by account type, net income, cash position, and recent activity"
-  auth = "user"
 
   input {
     date start_date?

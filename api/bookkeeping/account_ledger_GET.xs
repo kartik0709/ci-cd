@@ -2,7 +2,6 @@
 query "accounts/{account_id}/ledger" verb=GET {
   api_group = "Bookkeeping"
   description = "List the journal entry lines posted to an account, most recently recorded first"
-  auth = "user"
 
   input {
     int account_id {

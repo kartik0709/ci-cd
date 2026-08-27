@@ -2,7 +2,6 @@
 query "accounts/{account_id}" verb=GET {
   api_group = "Bookkeeping"
   description = "Get a single account with its current balance"
-  auth = "user"
 
   input {
     int account_id {

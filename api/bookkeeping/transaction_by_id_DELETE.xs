@@ -2,7 +2,6 @@
 query "transactions/{transaction_id}" verb=DELETE {
   api_group = "Bookkeeping"
   description = "Delete a journal entry and its lines"
-  auth = "user"
 
   input {
     int transaction_id {

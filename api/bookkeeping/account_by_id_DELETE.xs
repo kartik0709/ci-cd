@@ -2,7 +2,6 @@
 query "accounts/{account_id}" verb=DELETE {
   api_group = "Bookkeeping"
   description = "Delete an account that has no journal entry lines posted against it"
-  auth = "user"
 
   input {
     int account_id {
