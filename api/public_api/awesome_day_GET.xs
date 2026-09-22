@@ -9,5 +9,5 @@ query awesome_day verb=GET {
   stack {
   }
 
-  response = "today will be an awesome day!"
+  response = "Hello MRI Software!"
 }
