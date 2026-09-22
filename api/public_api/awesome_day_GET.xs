@@ -10,4 +10,5 @@ query awesome_day verb=GET {
   }
 
   response = "today will be an awesome day!"
+  guid = "qbQS_yMJ6EdT8qTtcqOgFdj8hSI"
 }

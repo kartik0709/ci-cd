@@ -1,9 +1,7 @@
 // Fires whenever a row is inserted into heartbeat; logs it to system_event
-table_trigger "heartbeat_insert" {
+// Logs a system_event row whenever a heartbeat is inserted
+table_trigger heartbeat_insert {
   table = "heartbeat"
-  actions = {insert: true, update: false, delete: false, truncate: false}
-  active = true
-  description = "Logs a system_event row whenever a heartbeat is inserted"
 
   input {
     json new
@@ -11,18 +9,20 @@ table_trigger "heartbeat_insert" {
     enum action {
       values = ["insert", "update", "delete", "truncate"]
     }
-
+  
     text datasource
   }
 
   stack {
-    db.add "system_event" {
+    db.add system_event {
       data = {
-        source: "heartbeat_trigger",
+        source : "heartbeat_trigger"
         message: "heartbeat inserted: id=" ~ ($input.new|get:"id"|to_text)
       }
     }
   }
 
+  actions = {insert: true}
   history = 100
+  guid = "b93Xg7eys6AyH3sfEzi0ks1DeWU"
 }
