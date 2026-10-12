@@ -1,54 +1,71 @@
-function "account_balance" {
-  description = "Computes an account's balance (in its natural debit/credit direction), optionally scoped to a date range"
-
+// Computes an account's balance (in its natural debit/credit direction), optionally scoped to a date range
+function account_balance {
   input {
     int account_id {
       table = "account"
     }
+  
     date start_date?="1970-01-01"
     date end_date?="2999-12-31"
   }
 
   stack {
-    db.get "account" {
+    db.get account {
       field_name = "id"
       field_value = $input.account_id
     } as $account
-
+  
     precondition ($account != null) {
       error_type = "notfound"
       error = "Account not found"
     }
-
-    db.query "journal_entry_line" {
+  
+    db.query journal_entry_line {
       join = {
         entry: {
           table: "journal_entry"
           where: $db.journal_entry_line.journal_entry_id == $db.entry.id
         }
       }
+    
       where = $db.journal_entry_line.account_id == $input.account_id && $db.entry.date >=? $input.start_date && $db.entry.date <=? $input.end_date
+      return = {type: "list"}
     } as $lines
-
-    var $debit_total { value = $lines|map:$$.debit|sum|round:2 }
-    var $credit_total { value = $lines|map:$$.credit|sum|round:2 }
-    var $balance { value = 0 }
-
+  
+    var $debit_total {
+      value = $lines|map:$$.debit|sum|round:2
+    }
+  
+    var $credit_total {
+      value = $lines|map:$$.credit|sum|round:2
+    }
+  
+    var $balance {
+      value = 0
+    }
+  
     conditional {
       if ($account.type == "asset" || $account.type == "expense") {
-        var.update $balance { value = $debit_total - $credit_total }
+        var.update $balance {
+          value = $debit_total - $credit_total
+        }
       }
+    
       else {
-        var.update $balance { value = $credit_total - $debit_total }
+        var.update $balance {
+          value = $credit_total - $debit_total
+        }
       }
     }
   }
 
   response = {
-    account_id: $input.account_id,
-    type: $account.type,
-    debit_total: $debit_total,
-    credit_total: $credit_total,
-    balance: $balance
+    account_id  : $input.account_id
+    type        : $account.type
+    debit_total : $debit_total
+    credit_total: $credit_total
+    balance     : $balance
   }
+
+  guid = "efi84XmYLtLTd6TGGc_NnOHisVE"
 }

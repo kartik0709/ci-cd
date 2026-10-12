@@ -1,5 +1,5 @@
 // Individual debit/credit split belonging to a journal entry
-table "journal_entry_line" {
+table journal_entry_line {
   auth = false
 
   schema {
@@ -7,11 +7,13 @@ table "journal_entry_line" {
     int journal_entry_id {
       table = "journal_entry"
     }
+  
     int account_id {
       table = "account"
     }
-    decimal debit?=0 filters=min:0
-    decimal credit?=0 filters=min:0
+  
+    decimal debit? filters=min:0
+    decimal credit? filters=min:0
     text memo? filters=trim
     timestamp created_at?=now
   }
@@ -21,4 +23,6 @@ table "journal_entry_line" {
     {type: "btree", field: [{name: "journal_entry_id"}]}
     {type: "btree", field: [{name: "account_id"}]}
   ]
+
+  guid = "WNRiQ-2UuY_drBSIn9TCGfqNth4"
 }

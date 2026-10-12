@@ -10,4 +10,5 @@ query hp_check verb=GET {
   }
 
   response = "HP good"
+  guid = "GPEmYXOuLQqaKFlhjCytLJNhQ68"
 }

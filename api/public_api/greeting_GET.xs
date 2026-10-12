@@ -10,4 +10,5 @@ query greeting verb=GET {
   }
 
   response = "hello_world_how_are_you"
+  guid = "snFwdFLTQReyWO9aSFDXqr0bPWY"
 }

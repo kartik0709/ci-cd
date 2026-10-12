@@ -1,4 +1,4 @@
 api_group Authentication {
-  canonical = "EAlPfjn4"
+  canonical = "kNL58onp"
   guid = "fLgFG9vBUPxE3JdBPQZVWWFuNFc"
 }

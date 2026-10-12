@@ -10,4 +10,5 @@ query bye verb=GET {
   }
 
   response = "Bye World!"
+  guid = "cnZLO1y7z82InpQRyIIUazEftcE"
 }

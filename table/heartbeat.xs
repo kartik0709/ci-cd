@@ -1,5 +1,5 @@
 // Rows inserted by the recurring heartbeat_task, one per scheduled run
-table "heartbeat" {
+table heartbeat {
   auth = false
 
   schema {
@@ -12,4 +12,6 @@ table "heartbeat" {
     {type: "primary", field: [{name: "id"}]}
     {type: "btree", field: [{name: "created_at", op: "desc"}]}
   ]
+
+  guid = "8UUa2Piqsohjz_6BgJXWqEtcyVk"
 }

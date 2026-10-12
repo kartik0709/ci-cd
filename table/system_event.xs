@@ -1,5 +1,5 @@
 // Generic event log written by the heartbeat trigger and the async ping function
-table "system_event" {
+table system_event {
   auth = false
 
   schema {
@@ -13,4 +13,6 @@ table "system_event" {
     {type: "primary", field: [{name: "id"}]}
     {type: "btree", field: [{name: "created_at", op: "desc"}]}
   ]
+
+  guid = "TftV5UAeoaXdt7-Hfix3jy5bEZw"
 }
